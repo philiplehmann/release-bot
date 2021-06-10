@@ -1,4 +1,4 @@
-import { Probot } from "probot";
+import { Probot } from 'probot'
 import { addRelease, editRelease, deleteRelease } from './mutations'
 
 // release: {
@@ -24,10 +24,10 @@ import { addRelease, editRelease, deleteRelease } from './mutations'
 
 // https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#release
 export = (app: Probot) => {
-  app.on("release.released", async (context) => {
-    console.log('released', context)
+  app.on('release.released', async (context) => {
     const release = context.payload.release
-    const response = await addRelease({
+    console.log(`new release ${release.id}`)
+    await addRelease({
       name: release.name || '',
       release_id: release.id,
       release_published_at: release.published_at,
@@ -37,13 +37,12 @@ export = (app: Probot) => {
       html_url: release.html_url,
       url: release.url
     })
-    console.log('released', response)
-  });
+  })
 
-  app.on("release.edited", async (context) => {
-    console.log('edited', context)
+  app.on('release.edited', async (context) => {
     const release = context.payload.release
-    const response = await editRelease({
+    console.log(`edited release ${release.id}`)
+    await editRelease({
       name: release.name || '',
       release_id: release.id,
       release_published_at: release.published_at,
@@ -52,25 +51,26 @@ export = (app: Probot) => {
       html_url: release.html_url,
       url: release.url
     })
-    console.log('edited', response)
-  });
+  })
 
-  app.on("release.deleted", async (context) => {
-    console.log('deleted', context)
+  app.on('release.deleted', async (context) => {
     const release = context.payload.release
-    const response = await deleteRelease({
+    console.log(`delete release ${release.id}`)
+    await deleteRelease({
       release_id: release.id
     })
-    console.log('deleted', response)
-  });
+  })
 
-  app.on("installation.created", async (context) => {
-    console.log('installed', context)
+  app.on('installation.created', async (context) => {
     context.payload.repositories.forEach(async (repository) => {
-      const octoResponse = await context.octokit.repos.listReleases({ owner: context.payload.installation.account.login, repo: repository.name })
+      const owner = context.payload.installation.account.login
+      const repo = repository.name
+      console.log(`installed in ${owner}/${repo}`)
+      const octoResponse = await context.octokit.repos.listReleases({ owner, repo })
       const releases = octoResponse.data
+      console.log(`found ${releases.length} releases`)
       releases.forEach(async (release) => {
-        const response = await addRelease({
+        await addRelease({
           name: release.name || '',
           release_id: release.id,
           release_published_at: release.published_at || '',
@@ -80,8 +80,7 @@ export = (app: Probot) => {
           html_url: release.html_url,
           url: release.url
         })
-        console.log('installed', response)
       })
     })
   })
-};
+}

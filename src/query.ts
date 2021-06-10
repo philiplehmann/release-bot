@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const ADD_RELEASE = gql`
 mutation AddRelease($name: String!, $release_id: Int!, $release_published_at: timestamptz!, $release_created_at: timestamptz!, $tag_name: String!, $body: String!, $html_url: String!, $url: String!) {
@@ -16,7 +16,7 @@ mutation AddRelease($name: String!, $release_id: Int!, $release_published_at: ti
     }
   }
 }
-`;
+`
 
 export const EDIT_RELEASE = gql`
 mutation EditRelease($name: String!, $release_id: Int!, $release_published_at: timestamptz!, $tag_name: String!, $body: String!, $html_url: String!, $url: String!) {
@@ -34,7 +34,7 @@ mutation EditRelease($name: String!, $release_id: Int!, $release_published_at: t
     }
   }
 }
-`;
+`
 
 export const DELETE_RELEASE = gql`
 mutation DeleteRelease($release_id: Int!) {
@@ -44,4 +44,4 @@ mutation DeleteRelease($release_id: Int!) {
     }
   }
 }
-`;
+`

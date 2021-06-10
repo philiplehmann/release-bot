@@ -1,5 +1,5 @@
-import fetch from 'cross-fetch';
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import fetch from 'cross-fetch'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { ADD_RELEASE, EDIT_RELEASE, DELETE_RELEASE } from './query'
 
 const client = new ApolloClient({
@@ -12,7 +12,7 @@ const client = new ApolloClient({
     },
     fetch
   })
-});
+})
 interface ReleaseEditBody {
   name: string
   release_id: number
