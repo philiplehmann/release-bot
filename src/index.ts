@@ -65,9 +65,11 @@ export = (app: Probot) => {
     context.payload.repositories.forEach(async (repository) => {
       const owner = context.payload.installation.account.login
       const repo = repository.name
+
       console.log(`installed in ${owner}/${repo}`)
       const octoResponse = await context.octokit.repos.listReleases({ owner, repo })
       const releases = octoResponse.data
+
       console.log(`found ${releases.length} releases`)
       releases.forEach(async (release) => {
         await addRelease({

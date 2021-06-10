@@ -24,6 +24,7 @@ default_events:
   # - gollum
   # - issue_comment
   # - issues
+
   - release
 # - label
 # - milestone
@@ -62,8 +63,7 @@ default_permissions:
 
   # Repository contents, commits, branches, downloads, releases, and merges.
   # https://developer.github.com/v3/apps/permissions/#permission-on-contents
-  # contents: read
-  releases: read
+  contents: read
 
   # Deployments and deployment statuses.
   # https://developer.github.com/v3/apps/permissions/#permission-on-deployments
